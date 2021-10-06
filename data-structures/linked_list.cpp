@@ -39,7 +39,18 @@ class LinkedList {
   }
 
   void insert(int position, T data) {
-    // TODO: implement insert
+    int index = 0;
+    Node<T>* node = start;
+    while (index < position - 1) {
+      node = node->link;
+      index++;
+    }
+
+    Node<T>* new_node = new Node<T>(data);
+    Node<T>* next_node = node->link;
+
+    new_node->link = next_node;
+    node->link = new_node;
   }
 
   void remove(int position) {
@@ -52,6 +63,7 @@ class LinkedList {
 int main() {
   LinkedList<int> list(6);
   list.push(9);
+  list.insert(1, -1);
 
   std::cout << list.get(0) << std::endl << list.get(1) << std::endl;
 
