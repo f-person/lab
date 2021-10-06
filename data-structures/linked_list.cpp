@@ -69,15 +69,24 @@ class LinkedList {
 
   void remove(int position) {
     int index = 0;
-    Node<T>* node_before_deleted_node = start;
-    while (index < position - 2) {
-      node_before_deleted_node = node_before_deleted_node->link;
-      index++;
-    }
 
-    Node<T>* node_after_deleted_node = node_before_deleted_node->link->link;
-    delete node_before_deleted_node->link;
-    node_before_deleted_node->link = node_after_deleted_node;
+    if (position > 0) {
+      Node<T>* node_before_deleted_node = start;
+      while (index < position - 1) {
+        node_before_deleted_node = node_before_deleted_node->link;
+        index++;
+      }
+
+      Node<T>* node_after_deleted_node = node_before_deleted_node->link->link;
+      delete node_before_deleted_node->link;
+      node_before_deleted_node->link = node_after_deleted_node;
+
+    } else {
+      Node<T>* next_node = this->start->link;
+      delete this->start;
+
+      this->start = next_node;
+    }
 
     length--;
   }
@@ -88,9 +97,10 @@ class LinkedList {
 };
 
 int main() {
-  LinkedList<int> list(3);
-  list.insert(0, 2);
-  list.insert(0, 1);
+  LinkedList<int> list(1);
+  list.push(2);
+
+  list.remove(0);
 
   for (int i = 0; i < list.getLength(); i++) {
     std::cout << list.get(i) << " ";
