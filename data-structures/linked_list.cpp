@@ -54,7 +54,16 @@ class LinkedList {
   }
 
   void remove(int position) {
-    // TODO: implement remove
+    int index = 0;
+    Node<T>* node_before_deleted_node = start;
+    while (index < position - 2) {
+      node_before_deleted_node = node_before_deleted_node->link;
+      index++;
+    }
+
+    Node<T>* node_after_deleted_node = node_before_deleted_node->link->link;
+    delete node_before_deleted_node->link;
+    node_before_deleted_node->link = node_after_deleted_node;
   }
 
   // TODO: implement a destructor
@@ -64,6 +73,7 @@ int main() {
   LinkedList<int> list(6);
   list.push(9);
   list.insert(1, -1);
+  list.remove(1);
 
   std::cout << list.get(0) << std::endl << list.get(1) << std::endl;
 
