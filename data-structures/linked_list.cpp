@@ -93,14 +93,23 @@ class LinkedList {
 
   int getLength() { return this->length; }
 
-  // TODO: implement a destructor
+  ~LinkedList<T>() {
+    Node<T>* node = this->start;
+    do {
+      Node<T>* next = node->link;
+      delete node;
+      node = next;
+    } while (node->link != NULL);
+    delete node;
+  }
 };
 
 int main() {
-  LinkedList<int> list(1);
-  list.push(2);
+  LinkedList<int> list(0);
 
-  list.remove(0);
+  for (int i = 1; i <= 10000; i++) {
+    list.push(i);
+  }
 
   for (int i = 0; i < list.getLength(); i++) {
     std::cout << list.get(i) << " ";
