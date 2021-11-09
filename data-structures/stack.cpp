@@ -1,4 +1,6 @@
 #include <iostream>
+#include <map>
+#include <string>
 
 template <typename T>
 struct Node {
@@ -50,6 +52,38 @@ class Stack {
   }
 };
 
+bool checkParenthesesBalanced(std::string str) {
+  std::map<char, char> matchingOpeningParentheses = {
+      {'}', '{'},
+      {')', '('},
+      {']', '['},
+  };
+
+  Stack<char> stack;
+
+  for (int i = 0; i < str.size(); i++) {
+    switch (str[i]) {
+      case '{':
+      case '(':
+      case '[':
+        stack.push(str[i]);
+        break;
+      case '}':
+      case ')':
+      case ']':
+        if (!stack.isEmpty() &&
+            stack.get() == matchingOpeningParentheses[str[i]]) {
+          stack.pop();
+        } else {
+          return false;
+        }
+        break;
+    }
+  }
+
+  return stack.isEmpty();
+}
+
 int main() {
   Stack<int> stack;
 
@@ -63,6 +97,14 @@ int main() {
 
   stack.pop();
   stack.print();
+
+  std::cout << std::endl << std::endl;
+
+  std::cout << checkParenthesesBalanced("()") << std::endl
+            << checkParenthesesBalanced("))))") << std::endl
+            << checkParenthesesBalanced("(]") << std::endl
+            << checkParenthesesBalanced("{() ()}") << std::endl
+            << checkParenthesesBalanced(")(") << std::endl;
 
   return 0;
 }
